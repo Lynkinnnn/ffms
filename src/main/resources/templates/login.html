@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>家庭财务管理系统</title>
+
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/amazeui/2.7.2/css/amazeui.min.css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+  <!-- 国内使用 -->
+  <script type="text/javascript" charset="utf-8" src="//g.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script>
+  <!-- 若您的主要用户来源于海外，请替换使用下面的js资源 -->
+  <!-- <script type="text/javascript" charset="utf-8" src="//aeis.alicdn.com/sd/ncpc/nc.js?t=2015052012"></script> -->
+<link href="css/style.css" rel="stylesheet" type="text/css">
+
+<script language="JavaScript" type="text/JavaScript" src="js/common.js"></script>
+  <script type="text/javascript" charset="utf-8" src="https://g.alicdn.com/sd/nch5/index.js?t=2015052012"></script>
+  <!-- 若您的主要用户来源于海外，请替换使用下面的js资源 -->
+  <!-- <script type="text/javascript" charset="utf-8" src="//aeis.alicdn.com/sd/nch5/index.js?t=2015052012"></script> -->
+  <style>
+    .am-form{
+      padding: 10px;
+    }
+    ._nc .stage1 .slider{
+      left: 0;
+      right: 0;
+    }
+  </style>
+<style type="text/css">
+<!--
+body {
+	background-color: #c4c3c3;
+}
+-->
+</style>
+</head>
+
+<body onLoad="MM_preloadImages('images/login_10.gif','images/login_09.gif')">
+
+<table width="502" border="0"  align="center" cellpadding="0" cellspacing="0" class="mar001">
+  <tr>
+    <td background="images/login_02.gif"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td width="2%" align="left"><img src="images/login_03.gif" width="12" height="30"></td>
+        <td th:text="#{login.top}" width="49%" align="left" class="text001"></td>
+        <td width="49%" align="right"><img src="images/login_01.gif" width="11" height="30"></td>
+      </tr>
+    </table></td>
+  </tr>
+  <tr>
+    <td height="247" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+      <tr valign="top">
+        <td width="35%" height="232"><img src="images/login_05.gif" width="178" height="269"></td>
+
+        <td width="65%" align="right" background="images/login_06.gif" class="bg01">
+          <img src="images/login_04.gif" width="268" height="47" class="mar002">
+
+          <!--账号密码登录-->
+
+          <div class="tab">
+            <ul class="title">
+            <li class="active"><a href="#">账号密码登录</a></li>
+            <li><a href="#">手机验证码登录</a></li>
+            <!--<li><a href="#">家居</a></li>-->
+            </ul>
+
+            <div id="content">
+          <div class="mod">
+            <form id="myForm" action="/login" method="post">
+          <table width="90%" height="125"  border="0" cellpadding="0" cellspacing="0" class="mar003">
+            <tr>
+            <td th:text="#{login.userName}"  width="32%" height="38" align="right" class="text002"></td>
+            <td width="68%" align="left" valign="middle"><input name="name" type="text" class="inp001"></td>
+          </tr>
+          <tr>
+            <td th:text="#{login.password}" height="37" align="right" class="text002"></td>
+            <td align="left" valign="middle"><input name="pwd" type="password" class="inp001"></td>
+          </tr>
+            <div th:if="${not #strings.isEmpty(msg)}" class="alert alert-danger alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <strong><span th:text="${msg}" ></span></strong>
+            </div>
+          <tr>
+            <td height="50">&nbsp;</td>
+            <td align="left" valign="bottom">
+              <a type="submit" id="login" href="#" onMouseOver="MM_swapImage('Image1','','images/login_10.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','images/login_12.gif',1)" onMouseUp="MM_swapImage('Image1','','images/login_10.gif',1)"><img src="images/login_08.gif" name="Image1" width="75" height="24" border="0" id="Image1"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+              <a href="javascript:window.close();" onMouseOver="MM_swapImage('Image2','','images/login_09.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','images/login_11.gif',1)" onMouseUp="MM_swapImage('Image2','','images/login_09.gif',1)"><img src="images/login_07.gif" name="Image2" width="75" height="24" border="0" id="Image2"></a></td>
+          </tr>
+              <tr>
+                  <td height="50">&nbsp;</td>
+                  <td align="left" valign="bottom">
+                      <a class="btn btn-sm" th:href="@{/login.html(l='zh_CN')}">中文</a>
+                      <a class="btn btn-sm" th:href="@{/login.html(l='en_US')}">English</a></td>
+              </tr>
+        </table>
+            </form>
+          </div>
+          <!--验证码登录-->
+          <div class="am-form mod" style="display: none">
+            <div class="am-form-group">
+              <label for="tel">请输入手机号</label>
+              <input type="text" class="" id="tel" placeholder="请输入手机号">
+            </div>
+
+            <div id="__nc" style="height: 70px">
+              <div id="nc"></div>
+            </div>
+
+            <div class="am-form-group">
+              <label for="code">请输入验证码</label>
+              <input id="code" type="text" placeholder="请输入验证码">
+            </div>
+<!--            <strong><span th:text="${msg}" ></span></strong>-->
+            <button id="submit" type="button" class="am-btn am-btn-primary">提交</button>
+          </div>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+    </table></td>
+  </tr>
+</table>
+
+</body>
+
+<script>
+
+
+  $(function () {
+    $("#login").click(function () {
+      $("#myForm").submit();
+    //
+    //
+    //
+    //   })
+    })
+
+
+    //验证码模块
+    var nc_token = ["CF_APP_1", (new Date()).getTime(), Math.random()].join(':');
+    var nc=NoCaptcha.init({
+      renderTo: '#nc',
+      appkey: 'CF_APP_1',
+      scene: 'register',
+      token: nc_token,
+      trans: {"key1": "code200"},
+      elementID: ["usernameID"],
+      is_Opt: 0,
+      language: "cn",
+      timeout: 10000,
+      retryTimes: 5,
+      errorTimes: 5,
+      inline:false,
+      apimap: {
+// 'analyze': '//a.com/nocaptcha/analyze.jsonp',
+// 'uab_Url': '//aeu.alicdn.com/js/uac/909.js',
+      },
+      bannerHidden:false,
+      initHidden:false,
+      callback: function (data) {
+        window.console && console.log(nc_token)
+        window.console && console.log(data.csessionid)
+        window.console && console.log(data.sig);
+        var tel = $('#tel').val();
+        $.ajax({
+          url: "/sendMessage",
+          type: "post",
+          data: {
+            phone:tel
+          },
+          dataType: "json",
+          success: function (result) {
+            // if (result.code == 0) {
+            //   alert("验证码已发送!", "green")
+            // } else {
+            //   alert("发送失败,请稍后再试！");
+            //   nc.reset()
+            // }
+          },
+          error: function () {
+            alert("系统繁忙,请稍后再试!", "red")
+          }
+        })
+      },
+      error: function (s) {
+      }
+    });
+    NoCaptcha.setEnabled(true);
+    nc.reset();//请务必确保这里调用一次reset()方法
+
+    NoCaptcha.upLang('cn', {
+      'LOADING':"加载中...",//加载
+      'SLIDER_LABEL': "请向右滑动验证",//等待滑动
+      'CHECK_Y':"验证通过",//通过
+      'ERROR_TITLE':"非常抱歉，这出错了...",//拦截
+      'CHECK_N':"验证未通过", //准备唤醒二次验证
+      'OVERLAY_INFORM':"经检测你当前操作环境存在风险，请输入验证码",//二次验证
+      'TIPS_TITLE':"验证码错误，请重新输入"//验证码输错时的提示
+    });
+
+    $(function(){
+      $(".title li").click(function(){
+//            var $this=$(this);
+//            alert($this.index());
+        $(this).addClass("active").siblings().removeClass("active");
+        $("#content .mod").eq($(".title li").index(this)).show().siblings("#content .mod").hide();
+      });
+    });
+
+    $("#submit").click(function () {
+      var code = $("#code").val();
+      window.location.href="/messageLogin?code="+code;
+      // $.ajax({
+      //   url:"/messageLogin",
+      //   type:"post",
+      //   data:{code:code},
+      //   success:function (result) {
+      //     alert("666")
+      //   },
+      //   error:function (rel) {
+      //     alert("555")
+      //   }
+      // })
+    })
+  })
+
+</script>
+
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>帐薄管理--添加</title>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+    <script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+</head>
+
+<body leftmargin="0" topmargin="0" onLoad="MM_preloadImages('../images/login_10.gif','../images/login_12.gif','../images/login_09.gif','../images/login_11.gif')">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 账簿管理 】</td>
+          <td align="right">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="left" class="bg03">
+        <td width="100%" height="29">
+          <span class="text001">&nbsp;&nbsp;新增收支记录</span></td>
+        </tr>
+
+    </table>
+      <table width="98%"  border="0" cellpadding="0" cellspacing="0" class="text008">
+        <tr align="center">
+          <td width="12%" height="35" align="right">收支类型</td>
+          <td width="88%" align="left">
+          <select class="inp001">
+          	<option value="1">收入</option>
+          	<option value="2">支出</option>
+          </select>
+          </td>
+        </tr>
+        <tr align="center" class="bg04">
+          <td width="12%" height="35" align="right">父项目</td>
+          <td width="88%" align="left">
+          <select id="pid" class="inp001">
+          	<option>餐费</option>
+          	<option>交通费</option>
+          	<option>电话费</option>
+          </select>
+          </td>
+        </tr>
+        <tr align="center">
+          <td width="12%" height="35" align="right">子项目</td>
+          <td width="88%" align="left">
+          <select id="cid" class="inp001">
+          	<option>午餐费</option>
+          	<option>早餐费</option>
+          	<option>晚餐费</option>
+          </select>
+          </td>
+        </tr>
+        <tr align="center" class="bg04">
+          <td height="35" align="right">收支日期</td>
+          <td align="left"><input id="adate" name="textfield" type="date" class="inp001"></td>
+        </tr>
+        <tr align="center">
+          <td height="35" align="right">收支家庭成员</td>
+          <td align="left">
+          <select id="users_id" class="inp001">
+          	<option value="1">张山</option>
+          	<option value="2">卢一舟</option>
+          	<option value="3">李良陈</option>
+          </select>
+          </td>
+        </tr>
+        <tr align="center" class="bg04">
+          <td height="35" align="right">收支金额</td>
+          <td align="left"><input id="amount" name="textfield" type="text" class="inp001"></td>
+        </tr>
+        <tr align="center">
+          <td height="168" align="right" valign="top" ><div class="mar009">备注</div></td>
+          <td align="left" valign="top">
+            <textarea id="remark" name="textarea" class="inp002">
+
+
+            </textarea>
+         </td>
+        </tr>
+      </table>
+      <table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor001">
+        <tr>
+          <td width="22%" height="40" align="center" >
+          <a id="confirm" target="mainframe" onMouseOver="MM_swapImage('Image1','','../images/index_12_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','../images/index_12_2.gif',1)" onMouseUp="MM_swapImage('Image1','','../images/index_12_1.gif',1)"><img src="../images/index_12_0.gif" name="Image1" width="75" height="24" border="0" id="Image1"></a>&nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="list.html" target="mainframe" onMouseOver="MM_swapImage('Image2','','../images/login_09.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/login_11.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/login_09.gif',1)"><img src="../images/login_07.gif" name="Image2" width="75" height="24" border="0" id="Image2"></a></td>
+          <td width="78%" align="right">&nbsp;          </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+
+<script>
+
+  $(function () {
+
+    $.ajax({
+      url:"/getAllUser",
+      type:"get",
+      dataType:"json",
+      success: function (result) {
+        $("#users_id").empty();
+        $.each(result,function (index,ele) {
+          var a = "<option value="+ele.id+">"+ele.name+"</option>";
+          $("#users_id").append(a);
+        })
+      }
+    })
+
+    $.ajax({
+      url:"/getParent",
+      type:"get",
+      dataType:"json",
+      success: function (result) {
+        $("#pid").empty();
+        $.each(result,function (index,ele) {
+          var a = "<option value="+ele.id+">"+ele.name+"</option>";
+          $("#pid").append(a);
+        })
+      }
+    })
+
+
+    $("#pid").change(function () {
+      var id = $("#pid option:selected").val();
+      $.ajax({
+        url:"/getChild",
+        type:"get",
+        data:{id:id},
+        dataType:"json",
+        success: function (result) {
+          $("#cid").empty();
+          $.each(result,function (index,ele) {
+            var a = "<option value="+ele.id+">"+ele.name+"</option>";
+            $("#cid").append(a);
+          })
+        }
+      })
+    })
+
+
+
+
+   $("#confirm").click(function () {
+     var adate = $("#adate").val();
+     var amount = $("#amount").val();
+     var pid = $("#pid option:selected").val();
+     var cid = $("#cid option:selected").val();
+     var user_id = $("#users_id option:selected").val();
+     var remark = $("#remark").val();
+     alert(remark)
+     $.ajax({
+       url:"/addAccount",
+       type:"post",
+       data:{amount:amount,remark:remark,adate:adate,"user.id":user_id,"item.id":cid},
+       dataType:"json",
+       success: function (result) {
+       }
+     })
+   })
+
+  })
+
+</script>
+
+</html>

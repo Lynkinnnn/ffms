@@ -1,0 +1,216 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd" >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>帐薄管理</title>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+<script language="JavaScript" type="text/JavaScript" src="js/common.js"></script>
+</head>
+
+<body>
+<div>
+<div>
+    <table class="table table-hover table-striped" >
+    <tr>
+      <td height="32" align="left" valign="top" class="text006"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 账簿管理 】</td>
+          <td align="right">
+            <a href="/toAddAccount" target="mainframe" onMouseOver="MM_swapImage('Image1','','../images/index_10_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','../images/index_10_2.gif',1)" onMouseUp="MM_swapImage('Image1','','../images/index_10_1.gif',1)"><img src="images/index_10_0.gif" width="75" height="24" border="0" align="top" id="Image1"></a>&nbsp;&nbsp;
+            <a href="#" id="delete" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a>
+		  &nbsp;<a href="/find" onMouseOver="MM_swapImage('Image2','','../images/index_11_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/index_11_2.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/index_11_1.gif',1)"><img src="images/index_11_0.gif" width="75" height="24" border="0" align="top" id="Image2"></a></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top">
+      <!--   用户信息   -->
+      <div >
+    <table width="98%" class="table table-hover" border="0" cellspacing="0" cellpadding="0">
+      <tr align="center" class="bg03">
+        <td height="29">
+          <input id="checkAll" type="checkbox" name="checkbox1" >
+          <span class="text007">全选</span></td>
+        <td class="text007">收入/支出</td>
+        <td class="text007">项目名称 </td>        
+        <td class="text007">日期</td>
+        <td class="text007">家庭成员</td>
+        <td class="text007">金额</td>
+        <td class="text007">备注</td>
+        <td class="text007">操作</td>
+      </tr>
+
+      <tr align="center" th:each="account:${accounts}">
+        <td height="35"><input type="checkbox" name="checkbox" th:value="${account.getId()}"></td>
+        <td th:text="${account.getItem().getType()}==1?'收入':'支出'"></td>
+        <td align="left" th:text="${account.getItem().getPid().getName()+'--'+account.getItem().getName()}"><a href="account/edit.html">【车辆维护】-保养费 </a> </td>
+        <td th:text="${#dates.format(account.getAdate(),'yyyy-MM-dd')}"></td>
+        <td th:text="${account.getUser().getName()}">张山</td>
+        <td th:text="${account.getAmount()}" align="right" >100.00&nbsp;&nbsp;</td>
+        <td th:text="${account.getRemark()}" align="left">本周末到**交付</td>
+<!--        <td th:text="${account.getRemark()}" align="left">本周末到**交付</td>-->
+        <td><a th:href="@{/getAccountById(id=${account.getId()})}"><img src="images/icon_resault.gif" alt="查 看" width="12" height="15" hspace="10" border="0"></a>
+        <a th:href="@{/toEditAccountById(id=${account.getId()})}"><img src="images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a>
+          <a th:name="deleteOne" href="#" th:value="${account.getId()}"><img src="images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></a>
+        </td>
+      </tr>
+    </table >
+      </div>
+    </td>
+  </tr>
+    </table>
+</div>
+      <!-- 显示分页信息 -->
+            <div class="row">
+
+              <div class="col-md-4 col-md-offset-3" id="page_nav_area" >
+                <nav>
+                  <ul id="ul" class="pagination">
+                    <li th:if="${not accounts.isFirst()}"><a th:href="@{/getAllAccounts(pn=0,pageSize=${pageSize})}" >首页</a></li>
+                    <li th:if="${not accounts.isFirst()}"><a th:href="@{/getAllAccounts(pn=${pn-1},pageSize=${pageSize})}" ><<</a></li>
+
+                    <li th:if="${accounts.isFirst()}" class="disabled"><a class="disabled" href="#" disabled="disabled">首页</a></li>
+                    <li th:if="${accounts.isFirst()}" class="disabled"><a  href="#"  disabled="disabled"><<</a></li>
+
+                    <li id="clickPnn"></li>
+
+                    <li th:if="${accounts.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">>></a></li>
+                    <li th:if="${accounts.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">末页</a></li>
+
+                    <li th:if="${not accounts.isLast()}"><a th:href="@{/getAllAccounts(pn=${pn+1},pageSize=${pageSize})}" >>></a></li>
+                    <li th:if="${not accounts.isLast()}"><a th:href="@{/getAllAccounts(pn=${pnTotal-1},pageSize=${pageSize})}" >末页</a></li>
+                  </ul>
+                </nav>
+              </div>
+
+              <!-- 分页条信息 -->
+              <div class="col-md-2 col-md-offset-0" align="right" id="page_info_area"  style="margin-top: 25px">
+                每页显示
+                <select id="pageSize" >
+                  <option>3</option>
+                  <option th:text="${pageSize}" selected>5</option>
+                  <option>10</option>
+                  <option>15</option>
+                  <option>20</option>
+                </select>
+                条&nbsp;&nbsp;<span th:text="${pn+1}"></span>/<span th:text="${pnTotal}"></span>页&nbsp;&nbsp;
+              </div>
+              <div class="col-md-2 col-md-offset-0 " align="right" style="margin-top: 25px">
+                <input class="InputText" type="text" id="pagego" style="width:90px;"  placeholder="请输入页码" aria-describedby="sizing-addon2" />
+                <input class="input_button input-group-addon" style="width:60px;" type="button" id="go" value="GO" />
+              </div>
+            </div>
+
+</div>
+</body>
+<script>
+  $(function () {
+    $("#checkAll").click(function () {
+      $(":checkbox[name=checkbox]").prop("checked",$("#checkAll").prop("checked"));
+    })
+
+    //多个删除
+    $("#delete").click(function () {
+      if (confirm("你确定要删除吗？")){
+        var arr = [];
+        $(":checkbox[name=checkbox]:checked").each(function (i) {
+          arr[i] = $(this).val();
+        });
+        $.ajax({
+          url:"/deleteAccountById",
+          type:"delete",
+          data:{ids:arr},
+          success:function (result) {
+          }
+        })
+      }
+    })
+
+    $("a[name=deleteOne]").click(function () {
+      if (confirm("你确定要删除吗？")){
+        //alert(333)
+        var arr = [];
+        arr[0] = $(this).attr("value");
+        //alert($(this).attr("value"));
+        $.ajax({
+          url:"/deleteAccountById",
+          type:"post",
+          data:{ids:arr},
+          success:function (result) {
+            //alert(66666)
+          }
+        })
+      }
+    })
+
+    $("#go").click(function () {
+      var pn = $("#pagego").val()-1;
+      var pageSize = $("#pageSize option:selected").val();
+      // alert(pn)
+      // alert(pageSize)
+      window.location.href="/getAllAccounts?pn="+pn+"&pageSize="+pageSize;
+
+    })
+
+
+    var aa = "[[${clickNum}]]";
+    var nums = aa.split(",");
+    var curPn = "[[${pn}]]"
+    //$("#page_nav_area").empty();
+    //var a = "[[${pnTotal}]]"
+    // var ul = $("#ul");
+    // var ulLast = $("li[name=last]")[0];
+
+
+    for (var i = 0;i<nums.length;i++) {
+      //var nums = [[${clickNum}]][i];
+      var aa = $("<a></a>").append(nums[i])
+      var numLi = $("<li></li>").append(aa).attr("name","clickPn").attr("value",nums[i]);
+      if(curPn == nums[i]-1){
+        numLi.addClass("active");
+      }
+      // aa.click(function(){
+      //   var pnn = aa.attr("value")
+      //   to_page(pnn);
+      // });
+      //ul.append(numLi)
+      $("#clickPnn").before(numLi)
+    }
+
+    // var navEle = $("<nav></nav>").append(ul);
+    // navEle.appendTo("#page_nav_area")
+    //ul.after($("#last"))
+
+
+    $("li[name=clickPn]").click(function () {
+      var pnn = $(this).attr("value")-1;
+      to_page(pnn)
+    })
+
+    //alert(a)
+
+
+
+
+    function to_page(clickPn){
+      var pageSize = "[[${pageSize}]]"
+      window.location.href = "/getAllAccounts?pn="+clickPn+"&pageSize="+pageSize;
+    }
+
+
+    //var i =1
+
+    // document.write(b[2])
+
+  })
+
+
+</script>
+
+
+</html>

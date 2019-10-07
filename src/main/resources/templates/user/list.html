@@ -1,0 +1,224 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>家庭成员管理</title>
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006">
+      <table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 家庭成员管理 】</td>
+          <td align="right"><a href="/addUser" target="mainframe" onMouseOver="MM_swapImage('Image1','','../images/index_10_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','../images/index_10_2.gif',1)" onMouseUp="MM_swapImage('Image1','','../images/index_10_1.gif',1)"><img src="../images/index_10_0.gif" width="75" height="24" border="0" align="top" id="Image1"></a>&nbsp;&nbsp;
+            <a href="#" id="delete" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="../images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a>
+		  </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top">
+    <table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="center" class="bg03">
+        <td width="15%" height="29">
+          <input id="checkAll" type="checkbox" name="chkAll" value="checkbox">
+          <span class="text007">全选</span></td>
+        <td width="30%" class="text007"> 用户名 </td>
+        <td width="35%" class="text007">真实姓名</td>
+        <td width="20%" class="text007">操作</td>
+      </tr>
+      <tr align="center" th:each="user:${users}">
+        <td height="35"><input type="checkbox" name="checkbox" th:value="${user.getId()}"></td>
+        <td th:text="${user.getName()}"><a href="edit.html">e01234</a> </td>
+        <td th:text="${user.getRealName()}">xle021</td>
+        <td>
+          <a th:href="@{/getUserById(id=${user.getId()})}"><img src="images/icon_resault.gif" alt="查 看" width="12" height="15" hspace="10" border="0"></a>
+        <a th:href="@{/toEditUserById(id=${user.getId()})}"><img src="../images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a>
+          <a th:name="deleteOne" href="#" th:value="${user.getId()}"><img src="images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></a>
+
+        </td>
+      </tr>
+	</td>
+      </tr>
+    </table>
+	</td>
+  </tr>
+	<tr>
+      <td align=left valign=top>
+		<hr  class="bor005" size="1"/>
+	</td>
+    </tr>
+</table>
+<!--<table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor001">-->
+<!--  <tr>-->
+<!--    <td height="40" align="left" >&nbsp;</td>-->
+<!--    <td align="right">每页显示-->
+<!--      <select name="menu1">-->
+<!--        <option selected>11</option>-->
+<!--        <option>15</option>-->
+<!--        <option>20</option>-->
+<!--        <option>30</option>-->
+<!--        <option>50</option>-->
+<!--      </select>-->
+
+<!--      条&nbsp;&nbsp;<span th:text="${pn+1}"></span>/<span th:text="${pnTotal}"></span>页&nbsp;&nbsp;-->
+
+<!--      <span th:if="${not users.isFirst()}">-->
+<!--            <a href="/getAllUser?pn=0" class="btn btn-info btn-lg">首页</a>-->
+<!--          <a th:href="@{'/getAllUser?pn='+${pn-1}}" class="tex04 btn btn-default btn-lg">上一页</a>-->
+<!--          </span>-->
+<!--      <span th:if="${users.isFirst()}">-->
+<!--                <a href="/getAllUser?pn=0" class="btn btn-info btn-lg" disabled="disabled">首页</a>-->
+<!--              <a href="#" class="tex04 btn btn-default btn-lg" disabled="disabled">上一页</a> |-->
+<!--               </span>-->
+
+<!--      <span th:if="${users.isLast()}"><a href="#" class="tex04 btn btn-default btn-lg" disabled="disabled">下一页</a>-->
+<!--                 <a th:href="@{'/getAllUser?pn='+${pnTotal-1}}" class="btn btn-info btn-lg" disabled="disabled">末页</a>-->
+<!--              </span>-->
+<!--      <span th:if="${not users.isLast()}"><a th:href="@{'/getAllUser?pn='+${pn+1}}" class="tex04 btn btn-default btn-lg">下一页</a>-->
+<!--                  <a th:href="@{'/getAllUser?pn='+${pnTotal-1}}" class="btn btn-info btn-lg">末页</a>-->
+<!--              </span>-->
+
+<!--      <input class="InputText" type="text" id="pagego" style="width:30px;" />-->
+<!--      <input class="input_button" name="go" type="submit" id="go" value="GO" />-->
+<!--    </td>-->
+<!--  </tr>-->
+<!--</table>-->
+<!-- 显示分页信息 -->
+<div class="row">
+
+  <div class="col-md-4 col-md-offset-3" id="page_nav_area" >
+    <nav>
+      <ul id="ul" class="pagination">
+        <li th:if="${not users.isFirst()}"><a th:href="@{/getAllUser(pn=0,pageSize=${pageSize})}" >首页</a></li>
+        <li th:if="${not users.isFirst()}"><a th:href="@{/getAllUser(pn=${pn-1},pageSize=${pageSize})}" ><<</a></li>
+
+        <li th:if="${users.isFirst()}" class="disabled"><a class="disabled" href="#" disabled="disabled">首页</a></li>
+        <li th:if="${users.isFirst()}" class="disabled"><a  href="#"  disabled="disabled"><<</a></li>
+
+        <li id="clickPnn"></li>
+
+        <li th:if="${users.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">>></a></li>
+        <li th:if="${users.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">末页</a></li>
+
+        <li th:if="${not users.isLast()}"><a th:href="@{/getAllUser(pn=${pn+1},pageSize=${pageSize})}" >>></a></li>
+        <li th:if="${not users.isLast()}"><a th:href="@{/getAllUser(pn=${pnTotal-1},pageSize=${pageSize})}" >末页</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- 分页条信息 -->
+  <div class="col-md-2 col-md-offset-0" align="right" id="page_info_area"  style="margin-top: 25px">
+    每页显示
+    <select id="pageSize" >
+      <option>3</option>
+      <option th:text="${pageSize}" selected>5</option>
+      <option>10</option>
+      <option>15</option>
+      <option>20</option>
+    </select>
+    条&nbsp;&nbsp;<span th:text="${pn+1}"></span>/<span th:text="${pnTotal}"></span>页&nbsp;&nbsp;
+  </div>
+  <div class="col-md-2 col-md-offset-0 " align="right" style="margin-top: 25px">
+    <input class="InputText" type="text" id="pagego" style="width:90px;"  placeholder="请输入页码" aria-describedby="sizing-addon2" />
+    <input class="input_button input-group-addon" style="width:60px;" type="button" id="go" value="GO" />
+  </div>
+</div>
+</body>
+
+<script>
+  $(function () {
+
+
+    $("#go").click(function () {
+      var pn = $("#pagego").val()-1;
+      var pageSize = $("#pageSize option:selected").val();
+      // alert(pn)
+      // alert(pageSize)
+      window.location.href="/getAllUser?pn="+pn+"&pageSize="+pageSize;
+
+    })
+
+    var aa = "[[${clickNum}]]";
+    var nums = aa.split(",");
+    var curPn = "[[${pn}]]"
+    for (var i = 0;i<nums.length;i++) {
+      var aa = $("<a></a>").append(nums[i])
+      var numLi = $("<li></li>").append(aa).attr("name","clickPn").attr("value",nums[i]);
+      if(curPn == nums[i]-1){
+        numLi.addClass("active");
+      }
+      $("#clickPnn").before(numLi)
+    }
+
+
+    $("li[name=clickPn]").click(function () {
+      var pnn = $(this).attr("value")-1;
+      to_page(pnn)
+    })
+
+    function to_page(clickPn){
+      var pageSize = "[[${pageSize}]]"
+      window.location.href = "/getAllUser?pn="+clickPn+"&pageSize="+pageSize;
+    }
+
+    //全选功能
+    $("#checkAll").click(function () {
+      $(":checkbox[name=checkbox]").prop("checked",$("#checkAll").prop("checked"));
+    })
+
+    //批量删除功能
+    $("#delete").click(function () {
+      if (confirm("你确定要删除吗？")){
+        var arr = [];
+        $(":checkbox[name=checkbox]:checked").each(function (i) {
+          arr[i] = $(this).val();
+        });
+        $.ajax({
+          url:"/deleteUserById",
+          type:"delete",
+          data:{ids:arr},
+          success:function (result) {
+            alert(result)
+          }
+        })
+      }
+    })
+
+    $("a[name=deleteOne]").click(function () {
+      if (confirm("你确定要删除吗？")){
+        //alert(333)
+        var arr = [];
+        arr[0] = $(this).attr("value");
+        //alert($(this).attr("value"));
+        $.ajax({
+          url:"/deleteUserById",
+          type:"post",
+          data:{ids:arr},
+          success:function (result) {
+            alert(result)
+          }
+        })
+      }
+    })
+
+  })
+
+
+
+
+
+
+
+</script>
+
+
+</html>

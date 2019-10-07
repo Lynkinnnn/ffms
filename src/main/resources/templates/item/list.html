@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>收支项目管理</title>
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 收支项目管理 】 (父项目名称)</td>
+          <td align="right">
+          <a href="/addItem" target="mainframe" onMouseOver="MM_swapImage('Image2','','../images/index_14_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/index_14_2.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/index_15_1.gif',1)"><img src="../images/index_14_0.gif" width="85" height="24" border="0" align="top" id="Image2"></a>&nbsp;&nbsp;<a href="#" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="../images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a>
+		  </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="center" class="bg03">
+        <td width="13%" height="29">
+          <input type="checkbox" name="checkbox" value="checkbox"> 
+          <span class="text007">全选</span></td>
+        <td width="22%" class="text007"> 收入/支出              </td>
+        <td width="20%" class="text007">项目名称 </td>
+        <td width="30%" class="text007">操作</td>
+      </tr>
+      <tr align="center" th:each="item:${items}">
+        <td height="35"><input type="checkbox" name="checkbox" value="checkbox"></td>
+        <td th:text="${item.getType()}==0?'收入':'支出'">支出</td>
+        <td th:text="${item.getName()}" align="left"><a href="list.html">交通</a></td>
+        <td><a href="detail.html"><img src="../images/icon_resault.gif" alt="查 看" width="12" height="15" hspace="10" border="0"></a>
+        	<a th:href="@{/toEditItem(id=${item.getId()})}"><img src="../images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a><img src="../images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></td>
+      </tr>
+
+    </table>
+      <table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor001">
+        <tr>
+          <td height="40" align="left" >&nbsp;</td>
+          <td align="right">
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- 显示分页信息 -->
+<div class="row">
+
+  <div class="col-md-4 col-md-offset-3" id="page_nav_area" >
+    <nav>
+      <ul id="ul" class="pagination">
+        <li th:if="${not items.isFirst()}"><a th:href="@{/getAllItems(pn=0,pageSize=${pageSize})}" >首页</a></li>
+        <li th:if="${not items.isFirst()}"><a th:href="@{/getAllItems(pn=${pn-1},pageSize=${pageSize})}" ><<</a></li>
+
+        <li th:if="${items.isFirst()}" class="disabled"><a class="disabled" href="#" disabled="disabled">首页</a></li>
+        <li th:if="${items.isFirst()}" class="disabled"><a  href="#"  disabled="disabled"><<</a></li>
+
+        <li id="clickPnn"></li>
+
+        <li th:if="${items.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">>></a></li>
+        <li th:if="${items.isLast()}" class="disabled"><a class="disabled" href="#"  disabled="disabled">末页</a></li>
+
+        <li th:if="${not items.isLast()}"><a th:href="@{/getAllItems(pn=${pn+1},pageSize=${pageSize})}" >>></a></li>
+        <li th:if="${not items.isLast()}"><a th:href="@{/getAllItems(pn=${pnTotal-1},pageSize=${pageSize})}" >末页</a></li>
+      </ul>
+    </nav>
+  </div>
+
+  <!-- 分页条信息 -->
+  <div class="col-md-2 col-md-offset-0" align="right" id="page_info_area"  style="margin-top: 25px">
+    每页显示
+    <select id="pageSize" >
+      <option>3</option>
+      <option th:text="${pageSize}" selected>5</option>
+      <option>10</option>
+      <option>15</option>
+      <option>20</option>
+    </select>
+    条&nbsp;&nbsp;<span th:text="${pn+1}"></span>/<span th:text="${pnTotal}"></span>页&nbsp;&nbsp;
+  </div>
+  <div class="col-md-2 col-md-offset-0 " align="right" style="margin-top: 25px">
+    <input class="InputText" type="text" id="pagego" style="width:90px;"  placeholder="请输入页码" aria-describedby="sizing-addon2" />
+    <input class="input_button input-group-addon" style="width:60px;" type="button" id="go" value="GO" />
+  </div>
+</div>
+</body>
+
+<script>
+  $(function () {
+
+
+    $("#go").click(function () {
+      var pn = $("#pagego").val()-1;
+      var pageSize = $("#pageSize option:selected").val();
+      // alert(pn)
+      // alert(pageSize)
+      window.location.href="/getAllItems?pn="+pn+"&pageSize="+pageSize;
+
+    })
+
+    var aa = "[[${clickNum}]]";
+    var nums = aa.split(",");
+    var curPn = "[[${pn}]]"
+    for (var i = 0;i<nums.length;i++) {
+      var aa = $("<a></a>").append(nums[i])
+      var numLi = $("<li></li>").append(aa).attr("name","clickPn").attr("value",nums[i]);
+      if(curPn == nums[i]-1){
+        numLi.addClass("active");
+      }
+      $("#clickPnn").before(numLi)
+    }
+
+
+    $("li[name=clickPn]").click(function () {
+      var pnn = $(this).attr("value")-1;
+      to_page(pnn)
+    })
+
+    function to_page(clickPn){
+      var pageSize = "[[${pageSize}]]"
+      window.location.href = "/getAllItems?pn="+clickPn+"&pageSize="+pageSize;
+    }
+  })
+
+</script>
+
+</html>

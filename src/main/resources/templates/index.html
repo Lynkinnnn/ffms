@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>家庭财务管理系统</title>
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+<link href="css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body >
+<table width="100%">
+  <tr>
+    <td height="81"><img src="images/index_01.gif" width="100%" height="150"></td>
+  </tr>
+  <tr>
+    <td height="512" valign="top" bgcolor="#D0CCCC"><table width="100%" height="513"  border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="10%" height="272" align="center" valign="top"><table width="108" border="0" cellpadding="0" cellspacing="0" class="mar004">
+          <tr>
+            <td height="41" align="left" valign="bottom" background="images/index_02.gif"><div class="mar006"><span class="text003">用户名：</span><span th:text="${name}" class="text004">Admin</span></div></td>
+          </tr>
+          <tr>
+            <td height="433" align="center" valign="top" background="images/index_03.gif" class="bg02"><table width="152" border="0" cellpadding="0" cellspacing="0" class="mar005">
+              <tr>
+                <td height="41" align="left" background="images/index_09.gif" id="td1"><a href="/getAllAccounts" target="mainframe" onClick="change1(document.all.td1);change2(document.all.a1);" id="a1" class="tex001">
+                  <div class="mar007">账簿管理</div></a></td>
+              </tr>
+              <tr>
+                <td height="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="41" align="left" background="images/index_06.gif" id="td2"><a href="/getAllUser" target="mainframe" onClick="change1(document.all.td2);change2(document.all.a2);" id="a2" class="tex002">
+                  <div class="mar008">家庭成员管理</div></a></td>
+              </tr>
+              <tr>
+                <td height="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="41" background="images/index_06.gif" align="left" id="td3"><a href="/getAllItems" target="mainframe" class="tex002" id="a3" onClick="change1(document.all.td3);change2(document.all.a3);">
+                  <div class="mar008">收支项目管理</div></a></td>
+              </tr>
+              <tr>
+                <td height="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="41" background="images/index_06.gif" align="left" id="td4"><a href="/report" target="mainframe" class="tex002" id="a4" onClick="change1(document.all.td4);change2(document.all.a4);">
+                  <div class="mar007">报表统计</div></a></td>
+              </tr>
+              <tr>
+                <td height="20">&nbsp;</td>
+              </tr>
+              <tr>
+                <td height="41" background="images/index_06.gif" align="left"><a href="javascript:window.close();" class="tex002">
+                  <div class="mar007">退出系统</div></a></td>
+              </tr>
+            </table>
+			<script>
+            function init1(){
+	           for(var i=1;i<=4;i++){
+		          eval("document.all.td"+i).background="images/index_06.gif";	
+					             }
+           }
+
+           function change1(obj){
+		            init1();
+		            if(typeof(obj)!="undefined"){
+		            obj.background="images/index_09.gif";
+					
+	                 }
+          }
+		 
+		 function init2(){
+	           for(var i=1;i<=4;i++){
+		       eval("document.all.a"+i).className="tex002";
+		       
+	             }
+           }
+
+           function change2(obj){
+		            init2();
+		            if(typeof(obj)!="undefined"){
+
+					obj.className="tex001";
+	                 }
+          }
+		 
+           </script>
+			
+			</td>
+          </tr>
+          <tr>
+            <td valign="top"><img src="images/index_08.gif" width="180" height="41"></td>
+          </tr>
+        </table></td>
+        <td width="80%" valign="top"><table width="100%"  border="0" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF" class="mar004">
+          <tr>
+            <td><img src="images/index_04.gif" width="21" height="19"></td>
+          </tr>
+          <tr>
+            <td height="501" valign="top" align="right"><iframe name="mainframe" src="/getAllAccounts" width="98%" height="500px" frameborder="0" scrolling="no"></iframe></td>
+          </tr>
+        </table></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</body>
+</div>
+</html>

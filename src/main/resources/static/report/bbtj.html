@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>报表统计</title>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+<script>
+function selectBb() {
+	alert(document.all("select1").value);
+	document.all("exlframe").src = document.all("select1").value;
+}
+</script>
+
+</head>
+
+<body leftmargin="0" topmargin="0" onLoad="MM_preloadImages('../images/index_12_1.gif','../images/index_12_2.gif')">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 报表统计 】</td>
+          <td align="right"><img src="../images/icon01.gif" width="35" height="21" align="absmiddle"><span class="text010">报表类型
+            <select name="select1" class="inp004" onChange="selectBb()">
+              <option selected  value="bbtj_01.html">收支汇总报表</option>
+              <option value="bbtj_02.html">年度收支统计表</option>
+              <option value="bbtj_03.html">收入构成图表</option>
+              <option value="bbtj_04.html">支出构成图表</option>
+              <option value="bbtj_05.html">家庭成员收支表</option>
+            </select>
+          </span>		  </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="left" class="bg03">
+        <td width="100%" height="29"><span class="text001">&nbsp;&nbsp;收支汇总报表</span></td>
+      </tr>
+    </table>
+      <table width="98%"  border="0" cellpadding="0" cellspacing="0" class="bor002">
+        <tr>
+          <td width="10%" height="35" align="right" class="text011">统计年份</td>
+          <td width="12%" align="left"><span class="text010">
+            <select name="select" class="inp003">
+              <option selected>2008年</option>
+              <option>2007年</option>
+              <option>2006年</option>
+            </select>
+          </span></td>
+          
+          <td width="9%" height="35" align="right" class="text011">开始日期</td>
+          <td width="14%" align="left"><span class="text010">
+            <select name="select" class="inp005">
+              <option selected>--选择时间--</option>
+            </select>
+          </span></td>
+          <td width="10%" align="right" class="text011">结束日期</td>
+          <td width="19%" align="left"><span class="text010">
+            <select name="select" class="inp005">
+              <option selected>--选择时间--</option>
+            </select>
+          </span></td>
+          <td width="29%"><a href="#" target="mainframe" onMouseOver="MM_swapImage('Image1','','../images/index_12_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','../images/index_12_2.gif',1)" onMouseUp="MM_swapImage('Image1','','../images/index_12_1.gif',1)"><img src="../images/index_12_0.gif" name="Image1" width="75" height="24" border="0" id="Image1"></a></td>
+        </tr>
+      </table>
+      <table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor003">
+        <tr>
+          <td height="40" align="left" valign="top" ><iframe name="exlframe" src="bbtj_01.html" width="100%" height="400px" frameborder="0" align="top"></iframe>         </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+</html>

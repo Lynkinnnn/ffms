@@ -1,0 +1,200 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>家庭成员管理--添加</title>
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+<script>
+// function check() {
+// 	alert("ok");
+// 	//完成客户端验证
+// 	//用户名、真实姓名不为空
+// 	//两个密码相同
+// 	//提交表单
+// }
+</script>
+</head>
+<body leftmargin="0" topmargin="0" onLoad="MM_preloadImages('../images/login_10.gif','../images/login_12.gif','../images/login_09.gif','../images/login_11.gif')">
+
+<form name="myform" action="list.html">
+
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 家庭成员管理 】</td>
+          <td align="right">&nbsp;</td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="left" class="bg03">
+        <td width="100%" height="29">
+          <span class="text001">&nbsp;&nbsp;新增家庭成员</span></td>
+        </tr>
+
+    </table>
+      <table width="98%"  border="0" cellpadding="0" cellspacing="0" class="text008">
+        <tr align="center">
+          <td width="12%" height="35" align="right">用户名</td>
+          <td width="88%" align="left"><input id="name" name="textfield" type="text" class="inp001"><span class="control-label" ></span></td>
+        </tr>
+        <tr align="center" class="bg04">
+          <td height="35" align="right">真实姓名</td>
+          <td align="left"><input id="realName" name="textfield" type="text" class="inp001"></td>
+        </tr>
+
+        <tr align="center" class="bg04">
+          <td height="35" align="right">手机号码</td>
+          <td align="left"><input id="phone" name="textfield" type="text" class="inp001"></td>
+        </tr>
+        <tr align="center">
+          <td height="35" align="right">输入密码</td>
+          <td align="left"><input id="pwd" name="pwd" type="password" class="inp001"></td>
+        </tr>
+        <tr align="center" class="bg04">
+          <td height="35" align="right">确认密码</td>
+          <td align="left"><input id="conPwd" name="pwd1" type="password" class="inp001"><span class="control-label" ></span></td>
+        </tr>
+      </table>
+      <table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor001">
+        <tr>
+          <td width="22%" height="40" align="center" >
+          <a id="save" href="#" target="mainframe" onMouseOver="MM_swapImage('Image1','','../images/index_12_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image1','','../images/index_12_2.gif',1)" onMouseUp="MM_swapImage('Image1','','../images/index_12_1.gif',1)"><img src="../images/index_12_0.gif" name="Image1" width="75" height="24" border="0" id="Image1"></a>&nbsp;&nbsp;&nbsp;&nbsp;<a href="list.html" target="mainframe" onMouseOver="MM_swapImage('Image2','','../images/login_09.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/login_11.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/login_09.gif',1)"><img src="../images/login_07.gif" name="Image2" width="75" height="24" border="0" id="Image2"></a></td>
+          <td width="78%" align="right">&nbsp;          </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</form>
+</body>
+
+
+<script>
+  $(function () {
+    check()
+    checkPwd()
+    //checkUserType()
+  })
+
+  $("#save").click(function () {
+
+    var name = $("#name").val();
+    var realName = $("#realName").val();
+    var pwd = $("#pwd").val();
+    var conPwd = $("#conPwd").val();
+    var phone = $("#phone").val();
+    var user = {name:name,realName:realName,pwd:pwd,conPwd:conPwd,phone:phone};
+
+    $.ajax({
+      url:"/user",
+      type:"post",
+      data: user,
+      dataType:"json",
+      success:function (result) {
+        var msg = result.msg;
+        //alert(msg)
+        $("#name").parent().removeClass("has-success has-error");
+        $("#name").next("span").text("");
+        if(result.code == 100) {
+          window.location.href = "/getAllUser";
+        }else if(result.code == 200){
+          show_validate_msg("#name", "error", msg)
+        }else if(result.code == 300){
+          show_validate_msg("#conPwd", "error", msg)
+        }else {
+          alert("错误操作");
+        }
+      }
+    })
+
+  })
+
+
+  function check(){
+    $("#name").keyup(function() {
+        var name = $("#name").val();
+        $.ajax({
+          url: "/checkUser",
+          type: "post",
+          data: {name: name},
+          dataType: "json",
+          success: function (result) {
+            var msg = result.msg;
+            //清除当前元素的校验状态
+            // $("#name").parent().removeClass("has-success has-error");
+            // $("#name").next("span").text("");
+            if (result.code == 100) {
+              show_validate_msg("#name", "success", msg);
+              // $("#name").parent().addClass("has-success");
+              // $("#name").next("span").text(msg);
+            } else if (result.code == 200) {
+              // $("#name").parent().addClass("has-error");
+              // $("#name").next("span").text(msg);
+              show_validate_msg("#name", "error", msg);
+            } else {
+              $("#name").parent().addClass("has-error");
+              $("#name").next("span").text("错误操作");
+            }
+          }
+        })
+
+    })
+  }
+
+  // function checkUserType() {
+  //   $("#name").keyup(function () {
+  //     //1、拿到要校验的数据，使用正则表达式
+  //     var name = $("#name").val();
+  //     var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
+  //     if(!regName.test(name)){
+  //       //alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
+  //       show_validate_msg("#name", "error", "用户名可以是2-5位中文或者6-16位英文和数字的组合");
+  //       return false;
+  //     }else{
+  //       show_validate_msg("#name", "success", "");
+  //       return true;
+  //     };
+  //   })
+  // }
+  
+  //显示校验结果的提示信息
+  function show_validate_msg(ele,status,msg){
+    //清除当前元素的校验状态
+    $(ele).parent().removeClass("has-success has-error");
+    $(ele).next("span").text("");
+    if("success"==status){
+      $(ele).parent().addClass("has-success");
+      $(ele).next("span").text(msg);
+    }else if("error" == status){
+      $(ele).parent().addClass("has-error");
+      $(ele).next("span").text(msg);
+    }
+  }
+
+  function checkPwd() {
+    $("#conPwd,#pwd").keyup(function () {
+      var pwd = $("#pwd").val();
+      var conPwd = $("#conPwd").val();
+      $("#conPwd").parent().removeClass("has-success has-error");
+      $("#conPwd").next("span").removeClass("glyphicon glyphicon-ok glyphicon glyphicon-remove");
+      $("#conPwd").next("span").text("");
+      //alert(55)
+      if (pwd == conPwd){
+          $("#conPwd").parent().addClass("has-success");
+          $("#conPwd").next("span").addClass("glyphicon glyphicon-ok");
+        }else {
+          $("#conPwd").parent().addClass("has-error");
+          $("#conPwd").next("span").addClass("glyphicon glyphicon-remove");
+        }
+    })
+  }
+
+</script>
+</html>

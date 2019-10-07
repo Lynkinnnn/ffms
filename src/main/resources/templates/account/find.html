@@ -1,0 +1,202 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link th:href="@{bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <script src="js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+  <script th:src="@{bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>帐薄管理--查询结果</title>
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<script language="JavaScript" type="text/JavaScript" src="../js/common.js"></script>
+</head>
+
+<body topmargin="0" leftmargin="0">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td height="32" align="left" valign="top" class="text006">
+    <table width="98%"  border="0" cellspacing="0" cellpadding="0">
+        <tr valign="top">
+          <td>【 账簿管理 】</td>
+          <td align="right">&nbsp;
+          </td>
+        </tr>
+      </table></td>
+  </tr>
+  <tr>
+    <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td height="25">&nbsp;&nbsp;
+        开始日期:<input id="startDate" name="textfield" type="date" th:value="${startDate}" class="inp001">
+        结束日期:<input id="endDate" name="textfield" type="date" th:value="${endDate}" class="inp001">
+        <a id="find" href="#" onMouseOver="MM_swapImage('Image2','','../images/index_11_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/index_11_2.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/index_11_1.gif',1)"><img src="../images/index_11_0.gif" width="75" height="24" border="0" align="top" id="Image2"></a>
+        
+        </td>
+        <td>
+        <a href="#" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="../images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a> &nbsp;
+      	</td>
+      </tr>
+    </table>
+    <table width="98%"  border="0" cellspacing="0" cellpadding="0">
+      <tr align="center" class="bg03">
+        <td height="29">
+          <input type="checkbox" name="checkbox" value="checkbox"> 
+          <span class="text007">全选</span></td>
+        <td class="text007">收入/支出</td>
+        <td class="text007">项目名称 </td>        
+        <td class="text007">日期</td>
+        <td class="text007">家庭成员</td>
+        <td class="text007">金额</td>
+        <td class="text007">备注</td>
+        <td class="text007">操作</td>
+      </tr>
+      <tr id="list" align="center" th:each="account:${accounts}">
+        <td height="35"><input type="checkbox" name="checkbox" value="checkbox"></td>
+        <td id="type" th:text="${account.getItem().getType()}==1?'收入':'支出'"></td>
+        <td id="item" align="left" th:text="${account.getItem().getPid().getName()+'--'+account.getItem().getName()}"><a href="account/edit.html">【车辆维护】-保养费 </a> </td>
+        <td id="adate" th:text="${#dates.format(account.getAdate(),'yyyy-MM-dd')}"></td>
+        <td id="userName" th:text="${account.getUser().getName()}">张山</td>
+        <td id="amount" th:text="${account.getAmount()}" align="right" >100.00&nbsp;&nbsp;</td>
+        <td id="remark" th:text="${account.getRemark()}" align="left">本周末到**交付</td>
+        <!--        <td th:text="${account.getRemark()}" align="left">本周末到**交付</td>-->
+        <td><a href="account/detail.html"><img src="images/icon_resault.gif" alt="查 看" width="12" height="15" hspace="10" border="0"></a>
+          <a href="account/edit.html"><img src="images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a>
+          <img src="images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></td>
+      </tr>
+
+    </table >
+      </div>
+      <table width="98%" border="0" cellpadding="0" cellspacing="0" class="bor001">
+        <tr>
+          <td height="40" align="left" >&nbsp;</td>
+          <td align="right">每页显示
+            <select name="menu1">
+              <option selected>11</option>
+              <option>15</option>
+              <option>20</option>
+              <option>30</option>
+              <option>50</option>
+            </select>
+
+            条&nbsp;&nbsp;<span th:text="${pn+1}"></span>/<span th:text="${pnTotal}"></span>页&nbsp;&nbsp;
+
+            <span th:if="${not accounts.isFirst()}">
+                <span th:if="${is} == 1">
+                  <a name="firstPage" class="btn btn-info btn-lg">首页</a>
+                  <a name="lastPage" class="tex04 btn btn-default btn-lg">上一页</a>
+                </span>
+                <span th:if="${is} != 1">
+                   <a id="firstPage1" th:href="${is} == 1? ${href}:'/findAllAccounts?pn=0'"  class="btn btn-info btn-lg">首页</a>
+                   <a th:href="@{'/findAllAccounts?pn='+${pn-1}}" class="tex04 btn btn-default btn-lg">上一页</a>
+                </span>
+            </span>
+            <span th:if="${accounts.isFirst()}">
+                <span th:if="${is} == 1">
+                   <a href="#" class="btn btn-info btn-lg" disabled="disabled">首页</a>
+                   <a href="#" class="tex04 btn btn-default btn-lg"  disabled="disabled">上一页</a>
+                </span>
+                <span th:if="${is} != 1">
+                   <a href="#" class="btn btn-info btn-lg" disabled="disabled">首页</a>
+                   <a href="#" class="tex04 btn btn-default btn-lg" disabled="disabled">上一页</a>
+                </span>
+            </span>
+
+            <span th:if="${accounts.isLast()}">
+                <span th:if="${is} == 1">
+                  <a href="#" class="tex04 btn btn-default btn-lg"  disabled="disabled">下一页</a>
+                  <a href="#" class="btn btn-info btn-lg"  disabled="disabled">末页</a>
+                </span>
+                <span th:if="${is} != 1">
+                  <a name="nextPage" href="#" class="tex04 btn btn-default btn-lg" disabled="disabled">下一页</a>
+                  <a href="#" class="btn btn-info btn-lg" disabled="disabled">末页</a>
+                </span>
+            </span>
+            <span th:if="${not accounts.isLast()}">
+                <span th:if="${is} == 1">
+                  <a name="nextPage" class="tex04 btn btn-default btn-lg">下一页</a>
+                  <a name="endPage" class="btn btn-info btn-lg">末页</a>
+                </span>
+                <span th:if="${is} != 1">
+                  <a name="nextPage" th:href="@{'/findAllAccounts?pn='+${pn+1}}" class="tex04 btn btn-default btn-lg">下一页</a>
+                  <a th:href="@{'/findAllAccounts?pn='+${pnTotal-1}}" class="btn btn-info btn-lg">末页</a>
+                </span>
+            </span>
+
+            <input class="InputText" type="text" id="pagego" style="width:30px;" />
+            <input class="input_button" name="go" type="submit" id="go" value="GO" />
+          </td>
+        </tr>
+      </table></td>
+  </tr>
+</table>
+</body>
+<script>
+  $(function () {
+    $("#find").click(function () {
+      var startDate = $("#startDate").val();
+      var endDate = $("#endDate").val();
+      // $("#firstPage2").removeAttr("href");
+      // $("#firstPage1").removeAttr("href");
+      // $("#firstPage2").attr("href",str1);
+      // $("#firstPage1").attr("href",str1);
+      var str = "/findAccountByTime?startDate="+startDate+"&endDate="+endDate;
+      window.location.href=str;
+        // startDate1 = "[[${startDate}]]";
+        // endDate1 = "[[${endDate}]]";
+      // $.ajax({
+      //   url:"/findAccountByTime",
+      //   type:"post",
+      //   data:{startDate:startDate,endDate:endDate},
+      //   dateType:"json",
+      //   success:function (result) {
+      //     $("#list").empty();
+      //     $.each(result,function (index,ele) {
+      //       var type = $("<td></td>")
+      //
+      //       $("#list").append()
+      //
+      //     })
+      //
+      //   }
+      // })
+    })
+
+
+      function toPage(pnNum) {
+          var startDate1 = $("#startDate").val();
+          var endDate1 = $("#endDate").val();
+          window.location.href = "/findAccountByTime?pn="+pnNum+"&startDate="+startDate1+"&endDate="+endDate1;
+      }
+      //var pn = "[[${pn}]]"
+      $("a[name=lastPage]").click(function () {
+          var pn = "[[${pn}]]"
+          toPage(pn-1)
+      })
+
+      $("a[name=nextPage]").click(function () {
+          var pn = "[[${pn}]]"
+          pn++;
+          toPage(pn)
+      })
+      $("a[name=firstPage]").click(function () {
+          toPage(0)
+      })
+      $("a[name=endPage]").click(function () {
+          toPage("[[${pnTotal}]]"-1)
+      })
+
+      // var totalPage = "[[${pnTotal}]]"
+      // var startDate1 = $("#startDate").val();
+      // var endDate1 = $("#endDate").val();
+      // var str1 = "/findAccountByTime?pn="+(pn+1)+"&startDate="+startDate1+"&endDate="+endDate1;
+      // var str2 = "/findAccountByTime?pn="+(totalPage-1)+"&startDate="+startDate1+"&endDate="+endDate1;
+      // var a = $("<a>下一页</a>").addClass("tex04 btn btn-default btn-lg")
+      // var b = $("<a>末页</a>").addClass("btn btn-info btn-lg")
+      // $("#next1").append(a).append(b);
+  })
+
+
+</script>
+
+
+</html>

@@ -1,0 +1,36 @@
+spring:
+  datasource:
+    url: jdbc:mysql://101.132.72.107:3306/ffms?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+    username: root
+    password: "0717"
+    driver-class-name: com.mysql.jdbc.Driver
+    thymeleaf:
+      prefix: classpath:/templates
+      suffix: .html
+      cache: false
+      encoding: UTF-8
+    jackson:
+        #字符串时间，用这行表示
+      date-format: yyyy-MM-dd
+        #设置为东八区时间
+      timezone: GMT+8s
+
+  jpa:
+    hibernate:
+#      更新或者创建数据表结构
+      ddl-auto: update
+#      控制台显示sql
+    show-sql: true
+  messages:
+    basename: i18n.login
+
+server:
+  port: 8888
+#  servlet:
+#    context-path: grace/
+
+pagehelper:
+  helper-dialect: mysql
+  params: count=countsql
+  reasonable: true
+  support-methods-arguments: true
