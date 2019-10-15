@@ -71,7 +71,7 @@ public class UserController {
 
     @RequestMapping("/addUser")
     public String addUser(){
-        return "/user/add";
+        return "user/add";
     }
 
 
@@ -121,15 +121,15 @@ public class UserController {
         boolean flag = userService.canLogin(user);
         if (user.getPwd() == null||user.getName() == null){
             model.addAttribute("msg","用户名或密码不能为空");
-            return "/login";
+            return "login";
         }
         else if (flag){
             session.setAttribute("loginUser",user.getName());
             model.addAttribute("name",user.getName());
-            return "/index";
+            return "index";
         }else {
             model.addAttribute("msg","用户名或密码错误");
-            return "/login";
+            return "login";
         }
     }
 
@@ -144,7 +144,7 @@ public class UserController {
         model.addAttribute("users",users);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/user/list";
+        return "user/list";
     }
 
 
@@ -160,6 +160,8 @@ public class UserController {
     @RequestMapping("/sendMessage")
     @ResponseBody
     public Map<String,Object> smsXxs(@RequestParam("phone")String phone, HttpServletRequest request,HttpSession session) throws ClientException {
+
+
         Map<String,Object> map = new HashMap<>();
         // 验证码（指定长度的随机数）
         String code = CodeUtil.generateVerifyCode(6);
@@ -189,14 +191,14 @@ public class UserController {
             if(user != null){
                 session.setAttribute("loginUser",user.getName());
                 model.addAttribute("name",user.getName());
-                return "/index";
+                return "index";
             }else {
                 model.addAttribute("msg","手机号码错误");
-                return "/login";
+                return "login";
             }
         }else {
             model.addAttribute("msg","验证码错误");
-            return "/login";
+            return "login";
         }
     }
 
@@ -216,7 +218,7 @@ public class UserController {
     public String toEditUserById(@RequestParam("id")Integer id,Model model){
         User user = userService.getUserById(id);
         model.addAttribute("user",user);
-        return "/user/edit";
+        return "user/edit";
     }
 
     //批量删除

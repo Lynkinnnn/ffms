@@ -20,8 +20,6 @@ public class Account {
     @Column(updatable = false, nullable = false)
     private Date adate;
 
-
-
     private BigDecimal amount;
     private String remark;
 

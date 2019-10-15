@@ -15,7 +15,7 @@
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
     <tr align="center">
         <td height="40" colspan="3" class="text012">
-            收入构成图表</td>
+            支出构成图表</td>
     </tr>
     <tr>
         <td width="20%" align="left"></td>
@@ -40,7 +40,7 @@
     $.ajax({
         url:"/getByMonth",
         type:"post",
-        data:{type:1,year:2016},
+        data:{type:2,year:2016},
         dataType:"json",
         success:function (result) {
             // $.each(result,function (index,ele) {

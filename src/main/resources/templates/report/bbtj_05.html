@@ -26,7 +26,7 @@
         <option th:each="item:${items}" th:text="${item.getName()}">
     </select>
 </table>
-<div class="col-md-0 col-md-offset-0" id="chart1" style="width: 100%;height: 600px;top: 30px;left: 0%;border: 0px solid #FF0000;"></div>
+<div class="col-md-0 col-md-offset-0" id="chart1" style="width: 100%;height: 300px;top: 30px;left: 0%;border: 0px solid #FF0000;"></div>
 </body>
 </html>
 <script type="text/javascript">
@@ -148,8 +148,6 @@
         // console.log(data2)
         // console.log(dataTime)
 
-
-
            var option = {
                 legend: {},
                 tooltip: {
@@ -158,7 +156,7 @@
                 },
                 dataset: {
                     source: [
-                        dataTime,
+                        ['product', '2016-01', '2016-2', '2016-3', '2016-4', '2016-5', '2016-6'],
                         data,
                         data2,
                     ]

@@ -36,22 +36,22 @@ public class ItemController {
     }
 
     @RequestMapping("/getAllItems")
-    public String getAllItems(@RequestParam(value = "pn",defaultValue = "0")Integer pn,Model model){
-        Page<Item> items = itemService.getAllItems(pn);
+    public String getAllItems(@RequestParam(value = "pn",defaultValue = "0")Integer pn,@RequestParam(value = "pageSize",defaultValue = "5")Integer pageSize,Model model){
+        Page<Item> items = itemService.getAllItems(pn,pageSize);
         model.addAttribute("pn",pn);
         int totalPages = items.getTotalPages();
         model.addAttribute("pnTotal",totalPages);
         model.addAttribute("items",items);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/item/list";
+        return "item/list";
     }
 
     @RequestMapping("/addItem")
     public String addItem(Model model){
         List<Item> parents = itemService.getParent();
         model.addAttribute("parents",parents);
-        return "/item/add";
+        return "item/add";
     }
 
 
@@ -92,7 +92,13 @@ public class ItemController {
     public String toEditItem(@RequestParam("id")Integer id,Model model){
         Item item = itemService.getItemById(id);
         model.addAttribute("item",item);
-        return "/item/edit";
+        return "item/edit";
+    }
+    @RequestMapping("/deleteItemById")
+    @ResponseBody
+    public String deleteItemById(@RequestParam("ids[]")Integer[] ids){
+        itemService.deleteItemById(ids);
+        return "删除成功";
     }
 
 }

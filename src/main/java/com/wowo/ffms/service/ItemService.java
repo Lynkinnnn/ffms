@@ -28,8 +28,8 @@ public class ItemService {
         return itemRepository.findAllByPid_Id(id);
     }
 
-    public Page<Item> getAllItems(Integer pn) {
-        Pageable pageable = PageRequest.of(pn, 5, Sort.Direction.ASC, "id");
+    public Page<Item> getAllItems(Integer pn,Integer pageSize) {
+        Pageable pageable = PageRequest.of(pn, pageSize, Sort.Direction.ASC, "id");
         return itemRepository.findAll(pageable);
     }
 
@@ -49,5 +49,9 @@ public class ItemService {
 
     public Item getItemById(Integer id) {
         return itemRepository.findItemById(id);
+    }
+
+    public void deleteItemById(Integer[] ids) {
+        itemRepository.deleteBatch(ids);
     }
 }

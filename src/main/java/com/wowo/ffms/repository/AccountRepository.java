@@ -20,7 +20,7 @@ public interface AccountRepository extends JpaRepository<Account,Integer> {
     List<Account> findAll();
 
     @Query(value = "select sum(amount) am,DATE_FORMAT(adate,'%Y-%m') tt FROM accounts as a " +
-            "inner join items on items.type = :type and year(adate) = :year group by tt",nativeQuery = true)
+            "inner join items on items.type = :type and a.item_id = items.id and year(adate) = :year group by tt",nativeQuery = true)
     List<Map<String,Object>> findAllByType(@Param("type")Integer type,@Param("year")Integer year);
 
     @Query(value = "select sum(amount) am,DATE_FORMAT(adate,'%Y-%m') tt FROM accounts as a " +

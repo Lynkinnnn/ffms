@@ -24,8 +24,9 @@
       padding: 10px;
     }
     ._nc .stage1 .slider{
-      left: 0;
-      right: 0;
+
+      left: 30px;
+      right: 30px;
     }
   </style>
 <style type="text/css">
@@ -47,27 +48,37 @@ body {
         <td th:text="#{login.top}" width="49%" align="left" class="text001"></td>
         <td width="49%" align="right"><img src="images/login_01.gif" width="11" height="30"></td>
       </tr>
-    </table></td>
+    </table>
+
+
+    </td>
   </tr>
   <tr>
-    <td height="247" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
+    <td height="600" valign="top"><table width="100%"  border="0" cellspacing="0" cellpadding="0">
       <tr valign="top">
-        <td width="35%" height="232"><img src="images/login_05.gif" width="178" height="269"></td>
+        <td width="35%" height="600"><img src="images/login_05.gif" width="178" height="269"></td>
 
-        <td width="65%" align="right" background="images/login_06.gif" class="bg01">
+        <td width="100%" height="600" align="right" style="background-image:url('images/login_06.gif');background-repeat:repeat-x;height: 600px">
           <img src="images/login_04.gif" width="268" height="47" class="mar002">
 
+
+<!--          <div class="tab">-->
+<!--            <ul class="title">-->
+<!--            <li class="active"><a href="#">账号密码登录</a></li>-->
+<!--            <li><a href="#">手机验证码登录</a></li>-->
+<!--            </ul>-->
+
+
+              <!-- 导航区 -->
+
+              <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#NamePwdLogin" role="tab" data-toggle="tab">账号密码登录</a></li>
+                <li role="presentation"><a href="#codeLogin" role="tab" data-toggle="tab">手机验证码登录</a></li>
+              </ul>
+
+          <div class="tab-content">
           <!--账号密码登录-->
-
-          <div class="tab">
-            <ul class="title">
-            <li class="active"><a href="#">账号密码登录</a></li>
-            <li><a href="#">手机验证码登录</a></li>
-            <!--<li><a href="#">家居</a></li>-->
-            </ul>
-
-            <div id="content">
-          <div class="mod">
+          <div  id="NamePwdLogin" role="tabpanel" class="tab-pane active">
             <form id="myForm" action="/login" method="post">
           <table width="90%" height="125"  border="0" cellpadding="0" cellspacing="0" class="mar003">
             <tr>
@@ -100,7 +111,7 @@ body {
             </form>
           </div>
           <!--验证码登录-->
-          <div class="am-form mod" style="display: none">
+          <div id="codeLogin" role="tabpanel" class="tab-pane" >
             <div class="am-form-group">
               <label for="tel">请输入手机号</label>
               <input type="text" class="" id="tel" placeholder="请输入手机号">
@@ -117,14 +128,16 @@ body {
 <!--            <strong><span th:text="${msg}" ></span></strong>-->
             <button id="submit" type="button" class="am-btn am-btn-primary">提交</button>
           </div>
-            </div>
           </div>
+<!--          </div>-->
         </td>
 
       </tr>
     </table></td>
   </tr>
 </table>
+
+
 
 </body>
 
@@ -134,13 +147,7 @@ body {
   $(function () {
     $("#login").click(function () {
       $("#myForm").submit();
-    //
-    //
-    //
-    //   })
     })
-
-
     //验证码模块
     var nc_token = ["CF_APP_1", (new Date()).getTime(), Math.random()].join(':');
     var nc=NoCaptcha.init({
@@ -176,11 +183,11 @@ body {
           dataType: "json",
           success: function (result) {
             // if (result.code == 0) {
-            //   alert("验证码已发送!", "green")
+            alert("验证码已发送!", "green")
             // } else {
             //   alert("发送失败,请稍后再试！");
-            //   nc.reset()
-            // }
+            //   nc.reset)
+            // }(
           },
           error: function () {
             alert("系统繁忙,请稍后再试!", "red")
@@ -203,14 +210,14 @@ body {
       'TIPS_TITLE':"验证码错误，请重新输入"//验证码输错时的提示
     });
 
-    $(function(){
-      $(".title li").click(function(){
-//            var $this=$(this);
-//            alert($this.index());
-        $(this).addClass("active").siblings().removeClass("active");
-        $("#content .mod").eq($(".title li").index(this)).show().siblings("#content .mod").hide();
-      });
-    });
+//     $(function(){
+//       $(".title li").click(function(){
+// //            var $this=$(this);
+// //            alert($this.index());
+//         $(this).addClass("active").siblings().removeClass("active");
+//         $("#content .mod").eq($(".title li").index(this)).show().siblings("#content .mod").hide();
+//       });
+//     });
 
     $("#submit").click(function () {
       var code = $("#code").val();

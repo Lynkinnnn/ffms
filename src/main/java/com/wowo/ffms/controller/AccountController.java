@@ -85,7 +85,7 @@ public class AccountController {
 //        model.addAttribute("clickNum",nums);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/account/list";
+        return "account/list";
     }
 
     //跳转到账单查询页面（所有数据）
@@ -104,7 +104,7 @@ public class AccountController {
         model.addAttribute("pnTotal",totalPages);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/account/find";
+        return "account/find";
     }
 
 
@@ -121,7 +121,7 @@ public class AccountController {
         model.addAttribute("is",0);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/account/find";
+        return "account/find";
     }
 
     //查询页面按照时间段查询
@@ -143,7 +143,7 @@ public class AccountController {
         model.addAttribute("href",str);
         String nums = PageUtil.getPageNum(totalPages, pn);
         model.addAttribute("clickNum",nums);
-        return "/account/find";
+        return "account/find";
     }
 
 
@@ -152,7 +152,7 @@ public class AccountController {
     public String getAccountById(@RequestParam("id")Integer id,Model model){
         Account account = accountService.getAccountById(id);
         model.addAttribute("account",account);
-        return "/account/detail";
+        return "account/detail";
     }
 
     //编辑用户：获取当前用户的信息并跳转到编辑页面
@@ -160,7 +160,7 @@ public class AccountController {
     public String toEditAccountById(@RequestParam("id")Integer id,Model model){
         Account account = accountService.getAccountById(id);
         model.addAttribute("account",account);
-        return "/account/edit";
+        return "account/edit";
     }
 
 
@@ -180,15 +180,21 @@ public class AccountController {
     public String report3(Model model){
         List<Item> items = accountService.getAllByItemType(1);
         model.addAttribute("items",items);
-        return "/report/bbtj_03";
+        return "report/bbtj_03";
     }
 
+    @RequestMapping("/bbtj04")
+    public String report4(Model model){
+        List<Item> items = accountService.getAllByItemType(2);
+        model.addAttribute("items",items);
+        return "report/bbtj_04";
+    }
 
     @RequestMapping("/bbtj05")
     public String report5(Model model){
         List<Item> items = accountService.getAllByItemType(1);
         model.addAttribute("items",items);
-        return "/report/bbtj_05";
+        return "report/bbtj_05";
     }
 
 
@@ -206,7 +212,7 @@ public class AccountController {
 
     @RequestMapping("/report")
     public String report(){
-        return "/report/bbtj";
+        return "report/bbtj";
     }
 
     @RequestMapping("/deleteAccountById")
@@ -222,7 +228,7 @@ public class AccountController {
     //跳转到新增账单页面
     @RequestMapping("/toAddAccount")
     public String toAccount(){
-        return "/account/add";
+        return "account/add";
     }
 
 }

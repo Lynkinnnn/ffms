@@ -18,7 +18,8 @@
         <tr valign="top">
           <td>【 收支项目管理 】 (父项目名称)</td>
           <td align="right">
-          <a href="/addItem" target="mainframe" onMouseOver="MM_swapImage('Image2','','../images/index_14_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/index_14_2.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/index_15_1.gif',1)"><img src="../images/index_14_0.gif" width="85" height="24" border="0" align="top" id="Image2"></a>&nbsp;&nbsp;<a href="#" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="../images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a>
+          <a href="/addItem" target="mainframe" onMouseOver="MM_swapImage('Image2','','../images/index_14_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image2','','../images/index_14_2.gif',1)" onMouseUp="MM_swapImage('Image2','','../images/index_15_1.gif',1)"><img src="../images/index_14_0.gif" width="85" height="24" border="0" align="top" id="Image2"></a>&nbsp;&nbsp;
+            <a id="delete" href="#" target="mainframe" onMouseOver="MM_swapImage('Image3','','../images/index_13_1.gif',1)" onMouseOut="MM_swapImgRestore()" onMouseDown="MM_swapImage('Image3','','../images/index_13_2.gif',1)" onMouseUp="MM_swapImage('Image3','','../images/index_13_1.gif',1)"><img src="../images/index_13_0.gif" id="Image3" width="75" height="24" border="0"></a>
 		  </td>
         </tr>
       </table></td>
@@ -27,18 +28,19 @@
     <td height="215" valign="top"><table width="98%"  border="0" cellspacing="0" cellpadding="0">
       <tr align="center" class="bg03">
         <td width="13%" height="29">
-          <input type="checkbox" name="checkbox" value="checkbox"> 
+          <input id="checkAll" type="checkbox" name="checkbox" value="checkbox">
           <span class="text007">全选</span></td>
         <td width="22%" class="text007"> 收入/支出              </td>
         <td width="20%" class="text007">项目名称 </td>
         <td width="30%" class="text007">操作</td>
       </tr>
       <tr align="center" th:each="item:${items}">
-        <td height="35"><input type="checkbox" name="checkbox" value="checkbox"></td>
+        <td height="35"><input type="checkbox" name="checkbox" th:value="${item.getId()}"></td>
         <td th:text="${item.getType()}==0?'收入':'支出'">支出</td>
         <td th:text="${item.getName()}" align="left"><a href="list.html">交通</a></td>
         <td><a href="detail.html"><img src="../images/icon_resault.gif" alt="查 看" width="12" height="15" hspace="10" border="0"></a>
-        	<a th:href="@{/toEditItem(id=${item.getId()})}"><img src="../images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a><img src="../images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></td>
+        	<a th:href="@{/toEditItem(id=${item.getId()})}"><img src="../images/icon_set.gif" alt="编 辑" width="14" height="15" border="0"></a>
+          <a th:name="deleteOne" href="#" th:value="${item.getId()}"><img src="../images/delete.gif" alt="删 除" width="13" height="16" hspace="10"></a></td>
       </tr>
 
     </table>
@@ -129,6 +131,47 @@
       var pageSize = "[[${pageSize}]]"
       window.location.href = "/getAllItems?pn="+clickPn+"&pageSize="+pageSize;
     }
+
+
+    //全选功能
+    $("#checkAll").click(function () {
+      $(":checkbox[name=checkbox]").prop("checked",$("#checkAll").prop("checked"));
+    })
+
+    //批量删除功能
+    $("#delete").click(function () {
+      if (confirm("你确定要删除吗？")){
+        var arr = [];
+        $(":checkbox[name=checkbox]:checked").each(function (i) {
+          arr[i] = $(this).val();
+        });
+        $.ajax({
+          url:"/deleteItemById",
+          type:"delete",
+          data:{ids:arr},
+          success:function (result) {
+            alert(result)
+          }
+        })
+      }
+    })
+
+    $("a[name=deleteOne]").click(function () {
+      if (confirm("你确定要删除吗？")){
+        //alert(333)
+        var arr = [];
+        arr[0] = $(this).attr("value");
+        //alert($(this).attr("value"));
+        $.ajax({
+          url:"/deleteItemById",
+          type:"post",
+          data:{ids:arr},
+          success:function (result) {
+            alert(result)
+          }
+        })
+      }
+    })
   })
 
 </script>
