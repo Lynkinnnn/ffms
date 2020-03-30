@@ -1,0 +1,118 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd" >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>数据</title>
+    <link th:href="@{../bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+    <script th:src="@{../bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+<div id="div">
+
+    <div id="distpicker2">
+        <select id="province" class="form-control" style="width:auto;display:inline-block;">
+            <option value="" data-code="">---- 所在省 ----</option>
+            <option value="北京市" data-code="11" selected="">北京市</option>
+            <option value="天津市" data-code="12">天津市</option>
+            <option value="河北省" data-code="13">河北省</option>
+            <option value="山西省" data-code="14">山西省</option>
+            <option value="内蒙古自治区" data-code="15">内蒙古自治区</option>
+            <option value="辽宁省" data-code="21">辽宁省</option>
+            <option value="吉林省" data-code="22">吉林省</option>
+            <option value="黑龙江省" data-code="23">黑龙江省</option>
+            <option value="上海市" data-code="31">上海市</option>
+            <option value="江苏省" data-code="32">江苏省</option>
+            <option value="浙江省" data-code="33">浙江省</option>
+            <option value="安徽省" data-code="34">安徽省</option>
+            <option value="福建省" data-code="35">福建省</option>
+            <option value="江西省" data-code="36">江西省</option>
+            <option value="山东省" data-code="37">山东省</option>
+            <option value="河南省" data-code="41">河南省</option>
+            <option value="湖北省" data-code="42">湖北省</option>
+            <option value="湖南省" data-code="43">湖南省</option>
+            <option value="广东省" data-code="44">广东省</option>
+            <option value="广西壮族自治区" data-code="45">广西壮族自治区</option>
+            <option value="海南省" data-code="46">海南省</option>
+            <option value="重庆市" data-code="50">重庆市</option>
+            <option value="四川省" data-code="51">四川省</option>
+            <option value="贵州省" data-code="52">贵州省</option>
+            <option value="云南省" data-code="53">云南省</option>
+            <option value="西藏自治区" data-code="54">西藏自治区</option>
+            <option value="陕西省" data-code="61">陕西省</option>
+            <option value="甘肃省" data-code="62">甘肃省</option>
+            <option value="青海省" data-code="63">青海省</option>
+            <option value="宁夏回族自治区" data-code="64">宁夏回族自治区</option>
+            <option value="新疆维吾尔自治区" data-code="65">新疆维吾尔自治区</option>
+            <option value="台湾省" data-code="71">台湾省</option>
+            <option value="香港特别行政区" data-code="81">香港特别行政区</option>
+            <option value="澳门特别行政区" data-code="82">澳门特别行政区</option>
+        </select>
+
+
+        <select id="shi" class="form-control" style="width:auto;display:inline-block;">
+            <option data-code="">---- 地区编号1 ----</option>
+            <option data-code="01" selected="">01</option>
+            <option data-code="02">02</option>
+            <option data-code="03">03</option>
+            <option data-code="04">04</option>
+            <option data-code="05">05</option>
+            <option data-code="06">06</option>
+            <option data-code="07">07</option>
+            <option data-code="08">08</option>
+        </select>
+
+        <select id="qu" class="form-control" style="width:auto;display:inline-block;">
+            <option data-code="">---- 地区编号2 ----</option>
+            <option data-code="01" selected="">01</option>
+            <option data-code="02">02</option>
+            <option data-code="03">03</option>
+            <option data-code="04">04</option>
+            <option data-code="05">05</option>
+            <option data-code="06">06</option>
+            <option data-code="07">07</option>
+            <option data-code="08">08</option>
+            <option data-code="09">09</option>
+            <option data-code="10">10</option>
+            <option data-code="11">11</option>
+            <option data-code="12">12</option>
+            <option data-code="13">13</option>
+            <option data-code="14">14</option>
+        </select>
+    </div>
+    <div>
+        <input id="birthday" type="date" >
+    </div>
+    <input id="url" type="text"/>
+    <input type="button" onclick="spider()" value="爬"><br/>
+    <input id="num" type="text"/>
+    <input type="button" onclick="spiderIdCard()" value="爬idCard">
+
+</div>
+</body>
+<script>
+
+    $(function(){
+        var time = new Date()
+        var day = ('0' + time.getDate()).slice(-2)
+        var month = ('0' + (time.getMonth() + 1)).slice(-2)
+        var date = 1990 + '-' + month + '-' + day
+        $('#birthday').val(date)
+    })
+
+
+   function spider() {
+       window.open("localhost:8888/spiderDemo/getHospitalInfo?url=" + $("#url").val() + "&encoding=utf-8");
+   }
+
+    function spiderIdCard() {
+        var region = $("#province option:selected").attr("data-code") + "" + $("#shi option:selected").attr("data-code") + "" + $("#qu option:selected").attr("data-code");
+        var birthday = $('#birthday').val();
+        birthday = birthday.replace(/-/g, "");
+        //window.open("localhost:8888/spiderDemo/getIdCardInfo?url=https://sfz.uzuzuz.com/?region=" + region + "&birthday=19430307&sex=1&num=1000" + "&encoding=utf-8");
+    }
+</script>
+
+</html>

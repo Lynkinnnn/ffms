@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd" >
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>数据</title>
+    <link th:href="@{../bootstrap-3.3.7-dist/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+    <script src="../js/jquery-3.3.1.min.js" type="text/javascript" charset="UTF-8"></script>
+    <script th:src="@{../bootstrap-3.3.7-dist/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+<div id="div">
+
+
+    <tr align="center" th:each="map:${maps}">
+        <h2 th:value="${map.title}">[[${map.title}]]</h2>
+        <img th:src="${map.img}">
+    </tr>
+</div>
+</body>
+<script>
+
+
+</script>
+
+
+</html>

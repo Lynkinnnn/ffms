@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hahahaa</title>
+</head>
+<body>
+    <h1>CHOOSE</h1>
+    <br/>
+    <p>word测试数据1</p><button id="show1">点击预览</button>
+    <p>pdf测试数据2</p><button id="show2">点击预览</button>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $("#show1").click(function(){
+            window.open("http://localhost:8888/test/read/"+"test.doc");
+        });
+        $("#show2").click(function(){
+            window.open("http://localhost:8888/test/read/"+"cc.pdf");
+        });
+    </script>
+</body>
+</html>

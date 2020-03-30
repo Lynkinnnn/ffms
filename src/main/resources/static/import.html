@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>身份证转excel</title>
+</head>
+<style type="text/css">
+
+</style>
+<body>
+
+<a class="btn" href="javascript:void(0);" id="picker">导入</a>
+<script type="text/javascript" src="../static/webuploader.nolog.js"></script>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+    var uploader;
+    var errorDatas = "";
+    $(function(){
+        initUploader();
+    });
+
+    /**
+     * 初始化webuploader组件
+     */
+    function initUploader() {
+        uploader = WebUploader.create({
+            // swf文件路径
+            swf: ctx + '/libs/webuploader/Uploader.swf',
+            // 文件接收服务端。
+            server: ctx + '/ssStudentBaseInfo/readExcel',
+
+            timeout: 0,
+            // 选择文件的按钮。可选。
+            // 内部根据当前运行是创建，可能是input元素，也可能是flash.
+            pick: {
+                id: '#picker',
+                innerHTML: '导入数据',
+                multiple: false
+            },
+            // 上传请求的参数
+            formData : {
+                // batchId: $("#batchId").val(),
+                // importOp: $("#importOp").val(),
+                schoolId: $("#school").val(),
+                _csrf:$("meta[name='_csrf']").attr("content")
+            },
+            // 文件选择即开始上传
+            auto : true,
+            // 单文件上传
+            fileNumLimit: 1,
+            // 不压缩image, 默认如果是jpeg，文件上传前会压缩一把再上传！
+            resize: false,
+            // 接受文件类型
+            accept: {
+                title: 'Excel文件',
+                extensions: 'xls,xlsx',
+                mimeTypes: 'application/octet-stream,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            }
+        });
+
+        // 当文件被加入队列之前触发，此事件的handler返回值为false，则此文件不会被添加进入队列
+        uploader.on('beforeFileQueued', function (file) {
+            top.$.showLoading({'content': '数据导入中，请稍后...'});
+            var fileExt = 'xls, xlsx';
+            if (fileExt.indexOf(file.ext) < 0) {
+                top.$.removeLoading();
+                top.$.showTip({'content': '请上传xls,xlsx类型的文件', 'tiptype': 'error'});
+                return false;
+            }
+            var uploadFile = uploader.getFiles();
+            if (uploadFile.length > 0) {
+                uploader.removeFile(uploadFile[uploadFile.length - 1], true);
+            }
+        });
+
+        // 当文件上传成功时触发
+        uploader.on('uploadSuccess', function (file, data) {
+            top.$.removeLoading();
+            if (data.success) {
+                top.$.showTip({'content': data.displayMsg, 'tiptype': 'success'});
+                errorDatas = data.logMsg;
+                var errorInfos = JSON.parse(data.logMsg);
+                if (errorInfos.length > 0) {
+                    top.$.openDialog({'title':'错误数据列表','width':'530','height':'386','url':'../ssStudentBaseInfo/errorList.do'});
+                } else {
+                    query();
+                }
+                if(window.frameElement.id == "rightMainframe"){
+                    queryList();
+                } else {
+                    parent.queryList();
+                }
+            } else {
+                top.$.showTip({'content': data.displayMsg, 'tiptype': 'error'});
+            }
+            var uploadFile = uploader.getFiles();
+            if (uploadFile.length > 0) {
+                uploader.removeFile(uploadFile[uploadFile.length - 1], true);
+            }
+            uploader.reset();
+        });
+
+        // 当文件上传出错时触发
+        uploader.on('uploadError', function (file, reason) {
+            top.$.removeLoading();
+            top.$.showTip({'content': '上传出错', 'tiptype': 'error'});
+        });
+    }
+
+
+</script>
+</body>
+</html>

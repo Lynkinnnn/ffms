@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>预览测试</title>
+</head>
+<style type="text/css">
+
+</style>
+<body>
+
+    <button id="show1" >永中DCS</button>
+    <button id="show2" >openoffice</button>
+    <button id="show3" >openoffice</button>
+    <button id="show4" >openoffice</button>
+    <button type="button" id="show5" >jacob</button>
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script>
+        $("#show1").click(function(){
+            window.open("http://dcsapi.com/?k=40094229337420595448143&url="+"http://101.132.72.107:8080/Water/test.doc");
+        });
+        $("#show2").click(function(){
+            window.open("http://localhost:8888/test/read/"+"test.docx");
+        });
+        $("#show3").click(function(){
+            window.open("http://view.officeapps.live.com/op/view.aspx?src="+"http://101.132.72.107:8080/Water/test.doc");
+        });
+        $("#show4").click(function(){
+            window.open("http://www.xdocin.com/xdoc?_func=to&amp;_format=html&amp;_cache=1&amp;_xdoc="+"http://101.132.72.107:8080/Water/test.doc");
+        });
+        $("#show5").click(function(){
+            //window.open("http://localhost:8888/wordToPDF?filePath="+"C:/Users/Administrator/Desktop/test.docx");
+            var filePath = "C:/Users/Administrator/Desktop/test.docx"
+            $.ajax({
+                url: "http://localhost:8888/wordToPDF",
+                type: "post",
+                data: {"filePath": filePath},
+                datatype: "json",
+                success: function (data) {
+                    alert(111)
+                    alert(data)
+                    window.location.href = data;
+                },
+                error: function (data) {
+                    alert(222)
+                }
+            })
+        });
+
+        // var num = 1600;
+        // var sss = [2283,2274,2268,2265,2263,2231,2199,2197,2194,2193,2188,2184]
+        // var ss = 0
+        // $("#show5").click(function(){
+        //     window.open("http://180.100.74.63:6001/research/getMeshPaths?pdid="+num);
+        //     ss++
+        //     num--;
+        // });
+
+    </script>
+</body>
+</html>
